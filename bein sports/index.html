@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahmad Algwary | Live</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90' fill='%23f5c518'>A</text></svg>">
+
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0e0e12;
+  --accent:#f5c518;
+  --text:#f2f2f2;
+  --muted:#a1a1a1;
+  --card-bg:rgba(255,255,255,0.04);
+}
+html,body{height:100%;scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:40px 20px 60px;
+  min-height:100vh;
+}
+
+.frame{
+  width:100%;
+  max-width:1080px;
+  background:var(--card-bg);
+  border-radius:24px;
+  padding:30px;
+  box-shadow:0 15px 45px rgba(0,0,0,0.6);
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.07);
+}
+
+.frame h2{
+  color: var(--accent);
+  text-align: center;
+  font-size:24px;
+  font-weight:700;
+}
+
+.channels{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.channel-btn{
+  flex:1 1 130px;
+  height:50px;
+  border-radius:16px;
+  background:var(--bg);
+  color:var(--accent);
+  border:2px solid var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.25s ease;
+}
+.channel-btn.active,
+.channel-btn:hover{
+  background:var(--accent);
+  color:#111;
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(245,197,24,0.25);
+}
+
+.video-container{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+  background:#000;
+}
+
+.video-container iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:20px;
+}
+
+footer{
+  width:100%;
+  max-width:1080px;
+  text-align:center;
+  margin-top:50px;
+  padding:20px 0 10px;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.socials{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+.social{
+  width:46px;
+  height:46px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  border:2px solid rgba(245,197,24,0.1);
+  transition:transform 0.25s ease,box-shadow 0.25s ease,border-color 0.25s ease;
+}
+.social svg{width:22px;height:22px;fill:white;opacity:0.95;}
+.social:hover{
+  transform:translateY(-5px);
+  border-color:var(--accent);
+  box-shadow:0 8px 25px rgba(245,197,24,0.25);
+}
+
+footer p{color:var(--muted);font-size:13px;margin-top:12px;}
+
+@media (max-width:768px){
+  .channel-btn{flex:1 1 100px;height:48px;font-size:13px;}
+  footer{margin-top:40px;padding-bottom:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <h2>beIN SPORTS Live Channels</h2>
+
+  <div class="channels" id="channels">
+    <div class="channel-btn active" data-num="">beIN SPORTS 1</div>
+    <div class="channel-btn" data-num="2">beIN SPORTS 2</div>
+    <div class="channel-btn" data-num="3">beIN SPORTS 3</div>
+    <div class="channel-btn" data-num="4">beIN SPORTS 4</div>
+    <div class="channel-btn" data-num="5">beIN SPORTS 5</div>
+    <div class="channel-btn" data-num="6">beIN SPORTS 6</div>
+    <div class="channel-btn" data-num="7">beIN SPORTS 7</div>
+  </div>
+
+  <div class="video-container">
+    <iframe 
+      id="thatframe"
+      src="https://freeshot.live/embed/beINSPORTSAR.php"
+      sandbox="allow-scripts allow-same-origin"
+      allowfullscreen
+      allow="autoplay"
+      allowtransparency
+      scrolling="no"
+    ></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="socials">
+    <a class="social" href="https://web.facebook.com/ahmad.algwary.98/" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.35 2 1.87 6.48 1.87 12.07c0 4.98 3.57 9.12 8.25 9.86v-6.99H8.41V12.07h3.71V9.58c0-3.66 2.17-5.67 5.5-5.67 1.59 0 3.24.28 3.24.28v3.56h-1.82c-1.8 0-2.36 1.12-2.36 2.27v2.05h4.01l-.64 4.86h-3.37v6.99c4.68-.74 8.25-4.88 8.25-9.86z"/></svg>
+    </a>
+    <a class="social" href="https://www.instagram.com/a7md__08/" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" stroke="white" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="3.5" stroke="white" stroke-width="1.4" fill="none"/><circle cx="17.6" cy="6.4" r="0.6" fill="white"/></svg>
+    </a>
+  </div>
+  <p>© 2025 Ahmad Algwary — All rights reserved</p>
+</footer>
+
+<script>
+const btns = document.querySelectorAll('.channel-btn');
+const iframe = document.getElementById('thatframe');
+
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    iframe.src = `https://freeshot.live/embed/beINSPORTSAR${btn.dataset.num}.php`;
+    document.title = `Ahmad Algwary | beIN SPORTS ${btn.dataset.num}`;
+  });
+});
+</script>
+
+</body>
+</html>
