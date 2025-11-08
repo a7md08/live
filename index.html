@@ -167,6 +167,21 @@ body{
 function openLink(url){
   window.location.href = url;
 }
+
+// ===== فحص JSON كل 10 ثواني =====
+function checkSiteStatus() {
+  fetch('https://a7md08.github.io/Files/Web/Site%20status.json', {cache: "no-store"})
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "off") {
+        window.location.href = "https://a7md08.github.io/live/Checking-status/";
+      }
+    })
+    .catch(err => console.error('Error checking site status:', err));
+}
+
+checkSiteStatus();
+setInterval(checkSiteStatus, 10000);
 </script>
 
 </body>
