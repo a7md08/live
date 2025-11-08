@@ -7,7 +7,6 @@
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90' fill='%23f5c518'>A</text></svg>">
 
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -183,6 +182,7 @@ footer p{color:var(--muted);font-size:13px;margin-top:12px;}
 </footer>
 
 <script>
+// تغيير القناة
 const btns = document.querySelectorAll('.channel-btn');
 const iframe = document.getElementById('thatframe');
 
@@ -194,6 +194,24 @@ btns.forEach(btn => {
     document.title = `Ahmad Algwary | beIN SPORTS ${btn.dataset.num}`;
   });
 });
+
+// فحص JSON كل 10 ثواني
+function checkSiteStatus() {
+  fetch('https://a7md08.github.io/Files/Web/Site%20status.json', {cache: "no-store"})
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "off") {
+        window.location.href = "https://a7md08.github.io/live/Checking-status/";
+      }
+    })
+    .catch(err => console.error('Error checking site status:', err));
+}
+
+// فحص أول مرة مباشرة
+checkSiteStatus();
+
+// بعد ذلك كل 10 ثواني
+setInterval(checkSiteStatus, 10000);
 </script>
 
 </body>
