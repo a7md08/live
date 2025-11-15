@@ -3,252 +3,153 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Live Site Status - Ahmad Algwary</title>
+<title>Secure Access - Ahmad Algwary</title>
 
-<!-- Favicon حرف A أصفر -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90' fill='%23f5c518'>A</text></svg>">
+<!-- قفل الموقع عند إطفاء الجافاسكربت -->
+<noscript>
+  <meta http-equiv="refresh" content="0;url=about:blank">
+  <style>
+    html, body {
+      background:black !important;
+      color:black !important;
+      width:100%;
+      height:100%;
+      overflow:hidden !important;
+    }
+    *{display:none !important;}
+  </style>
+</noscript>
 
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --bg1:#0f0f12;
-    --bg2:#16161a;
-    --accent:#f5c518;
-    --muted:#cfcfcf;
-    --card-bg:rgba(255,255,255,0.03);
-  }
-  html,body{height:100%}
   body{
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg,var(--bg1) 10%, var(--bg2) 100%);
-    color:#fff;
+    background:#111;
+    height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:40px;
-    overflow-x:hidden;
+    color:#fff;
+    font-family:Arial;
   }
-
-  .frame{
-    width:100%;
-    max-width:800px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px;
-    padding:40px 30px;
-    box-shadow: 0 20px 50px rgba(2,6,23,0.6);
-    display:flex;
-    flex-direction:column;
-    gap:25px;
-    align-items:center;
+  #box{
+    background:#181818;
+    padding:30px;
+    width:90%;
+    max-width:320px;
+    border-radius:12px;
+    box-shadow:0 0 25px rgba(0,0,0,0.5);
     text-align:center;
-    animation:fadeUp 1s ease forwards;
-    opacity:0;
   }
-
-  @keyframes fadeUp{
-    to{
-      opacity:1;
-      transform:translateY(0);
-    }
-  }
-
-  h1{
-    font-size:64px;
-    color:var(--accent);
-    font-weight:900;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:0.3s;
-  }
-
-  h2{
-    font-size:24px;
-    color:#fff;
-    font-weight:600;
-    margin-bottom:20px;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:0.5s;
-  }
-
-  .status{
-    font-size:18px;
-    color:var(--muted);
-    margin-bottom:20px;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:0.7s;
-  }
-
-  /* Toggle switch */
-  .switch{
-    position:relative;
-    display:inline-block;
-    width:80px;
-    height:42px;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:0.9s;
-  }
-  .switch input{opacity:0;width:0;height:0;}
-  .slider{
-    position:absolute;
-    cursor:pointer;
-    top:0;left:0;right:0;bottom:0;
-    background:rgba(255,255,255,0.1);
-    transition:.4s;
-    border-radius:42px;
-  }
-  .slider:before{
-    position:absolute;
-    content:"";
-    height:30px;width:30px;
-    left:6px;bottom:6px;
-    background:white;
-    transition:.4s;
-    border-radius:50%;
-    box-shadow:0 2px 6px rgba(0,0,0,0.2);
-  }
-  input:checked + .slider{
-    background:var(--accent);
-  }
-  input:checked + .slider:before{
-    transform:translateX(38px);
-  }
-
-  .log{
-    margin-top:10px;
-    font-size:14px;
-    color:var(--muted);
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:1.1s;
-  }
-
-  .socials{
-    margin-top:30px;
-    display:flex;
-    gap:14px;
-    justify-content:center;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s ease forwards;
-    animation-delay:1.3s;
-  }
-
-  .social{
-    width:46px;
-    height:46px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
+  input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:0;
     border-radius:8px;
-    background:var(--card-bg);
-    border:2px solid rgba(245,197,24,0.08);
-    transition:transform .18s ease, box-shadow .18s ease;
-    text-decoration:none;
+    font-size:18px;
   }
-  .social svg{width:20px;height:20px;display:block}
-  .social:hover{transform:translateY(-6px);box-shadow: 0 10px 30px rgba(0,0,0,0.6);border-color:var(--accent);}
-
-  @media (max-width:460px){
-    h1{font-size:48px}
-    h2{font-size:20px}
-    .social{width:40px;height:40px}
-    .social svg{width:18px;height:18px}
+  button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#f5c518;
+    border:0;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
   }
+  #error{color:#ff4242;margin-top:10px;font-size:16px}
 </style>
+
 </head>
 <body>
 
-<div class="frame">
-  <h1>Live Site</h1>
-  <h2>Control Panel</h2>
-  <div id="current" class="status">Fetching status...</div>
-
-  <label class="switch">
-    <input type="checkbox" id="toggle">
-    <span class="slider"></span>
-  </label>
-
-  <div id="log" class="log"></div>
-
-  <div class="socials">
-    <a class="social" href="https://web.facebook.com/ahmad.algwary.98/" target="_blank" aria-label="Facebook">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.35 2 1.87 6.48 1.87 12.07c0 4.98 3.57 9.12 8.25 9.86v-6.99H8.41V12.07h3.71V9.58c0-3.66 2.17-5.67 5.5-5.67 1.59 0 3.24.28 3.24.28v3.56h-1.82c-1.8 0-2.36 1.12-2.36 2.27v2.05h4.01l-.64 4.86h-3.37v6.99c4.68-.74 8.25-4.88 8.25-9.86z" fill="white" opacity="0.95"/></svg>
-    </a>
-    <a class="social" href="https://www.instagram.com/a7md__08/" target="_blank" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" stroke="white" stroke-opacity="0.95" stroke-width="1.2" fill="none"/><path d="M12 8.2a3.8 3.8 0 100 7.6 3.8 3.8 0 000-7.6z" stroke="white" stroke-opacity="0.95" stroke-width="1.2" fill="none"/><circle cx="17.6" cy="6.4" r="0.6" fill="white" opacity="0.95"/></svg>
-    </a>
-  </div>
+<div id="box">
+  <h2>🔐 Password</h2>
+  <input type="password" id="pw" placeholder="Enter password">
+  <button onclick="login()">Login</button>
+  <div id="error"></div>
 </div>
 
 <script>
-const token = "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"; // ← place your token here
-const owner = 'a7md08';
-const repo = 'Files';
-const path = 'Web/Site status.json';
-const apiBase = 'https://api.github.com';
-
-function b64Decode(b){return decodeURIComponent(escape(atob(b)));}
-
-async function getFile(){
-  const url=`${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
-  const res=await fetch(url,{headers:{Authorization:'token '+token,Accept:'application/vnd.github+json'}});
-  if(!res.ok) throw new Error('Failed to fetch from GitHub');
-  return await res.json();
-}
-
-async function updateFile(contentObj,sha){
-  const url=`${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
-  const body={
-    message:`Toggle status to "${contentObj.status}"`,
-    content:btoa(unescape(encodeURIComponent(JSON.stringify(contentObj,null,2)))),
-    sha:sha
-  };
-  const res=await fetch(url,{
-    method:'PUT',
-    headers:{Authorization:'token '+token,Accept:'application/vnd.github+json'},
-    body:JSON.stringify(body)
-  });
-  if(!res.ok) throw new Error('Update failed');
-  return await res.json();
-}
-
-async function refreshStatus(){
-  try{
-    const file=await getFile();
-    const content=JSON.parse(b64Decode(file.content.replace(/\n/g,'')));
-    const chk=document.getElementById('toggle');
-    chk.checked=(content.status==='on');
-    document.getElementById('current').textContent='Current status: '+(content.status==='on'?'🟢 ON':'🔴 OFF');
-    return file;
-  }catch(e){
-    document.getElementById('current').textContent='⚠️ Fetch error';
-    document.getElementById('log').textContent=e.message;
+// ===================================================
+//                LOGIN SYSTEM
+// ===================================================
+function login(){
+  let p = document.getElementById("pw").value;
+  if(p === "ahmad2008"){
+    window.location.href = "https://a7md08.ct.ws/?i=1";
+  } else {
+    document.getElementById("error").textContent = "❌ Incorrect password";
   }
 }
 
-document.getElementById('toggle').onchange=async(e)=>{
-  try{
-    const file=await getFile();
-    const content=JSON.parse(b64Decode(file.content.replace(/\n/g,'')));
-    content.status=e.target.checked?'on':'off';
-    document.getElementById('current').textContent='Updating...';
-    await updateFile(content,file.sha);
-    document.getElementById('current').textContent='Status set to: '+(content.status==='on'?'🟢 ON':'🔴 OFF');
-    document.getElementById('log').textContent='✅ Saved successfully';
-  }catch(err){
-    document.getElementById('log').textContent='❌ '+err.message;
-  }
+// ===================================================
+//                BLOCK BACK BUTTON
+// ===================================================
+history.pushState(null, null, location.href);
+window.onpopstate = function(){
+  history.pushState(null, null, location.href);
 };
 
-refreshStatus();
+// ===================================================
+//                SECURITY PROTECTION
+// ===================================================
+
+// خروج آمن
+function exitNow(){
+  window.location.href = "about:blank";
+}
+
+// منع F12 + Ctrl+Shift+I/J/C + Ctrl+U
+document.addEventListener("keydown", e=>{
+  if(
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && e.key.toUpperCase()==="U")
+  ){
+    e.preventDefault();
+    exitNow();
+  }
+});
+
+// منع كليك يمين
+document.addEventListener("contextmenu", e=>{
+  e.preventDefault();
+  exitNow();
+});
+
+// كشف DevTools عبر قياس فرق الأحجام
+(function(){
+  let triggered = false;
+  setInterval(()=>{
+    let w = window.outerWidth - window.innerWidth;
+    let h = window.outerHeight - window.innerHeight;
+
+    if(w > 180 || h > 180){
+      if(!triggered){
+        triggered = true;
+        exitNow();
+      }
+    }
+  }, 600);
+})();
+
+// كشف debugger بدون خروج عشوائي
+setInterval(()=>{
+  let t = Date.now();
+  debugger;
+  if(Date.now() - t > 200){
+    exitNow();
+  }
+}, 1500);
+
+// كشف headless
+if(navigator.webdriver){
+  exitNow();
+}
 </script>
+
 </body>
 </html>
