@@ -30,7 +30,7 @@ body{
   min-height:100vh;
   animation:fadeIn 1s ease;
 }
-@keyframes fadeIn {from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn {from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
 
 .frame{
   width:100%;
@@ -139,14 +139,7 @@ footer p{color:var(--muted);font-size:13px;margin-top:12px;}
 <div class="frame">
   <h2>Al Kass Live Channels</h2>
 
-  <div class="channels" id="channels">
-    <div class="channel-btn active" data-num="1">Channel 1</div>
-    <div class="channel-btn" data-num="2">Channel 2</div>
-    <div class="channel-btn" data-num="3">Channel 3</div>
-    <div class="channel-btn" data-num="4">Channel 4</div>
-    <div class="channel-btn" data-num="5">Channel 5</div>
-    <div class="channel-btn" data-num="6">Channel 6</div>
-  </div>
+  <div class="channels" id="channels"></div>
 
   <div class="video-container">
     <video
@@ -157,10 +150,7 @@ footer p{color:var(--muted);font-size:13px;margin-top:12px;}
       muted
       preload="auto"
       playsinline
-    >
-      <source src="https://liveeu-gcp.alkassdigital.net/alkass1-p/mux_video_720p_ts/index-1.m3u8" type="application/x-mpegURL" />
-      Your browser does not support video.
-    </video>
+    ></video>
   </div>
 </div>
 
@@ -178,47 +168,65 @@ footer p{color:var(--muted);font-size:13px;margin-top:12px;}
 
 <script src="https://vjs.zencdn.net/8.20.0/video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
+
 <script>
 const video = document.getElementById('my-video');
-const btns = document.querySelectorAll('.channel-btn');
+const channelsBox = document.getElementById('channels');
 let hls = null;
+let streams = [];
 
-function buildUrl(num){
-  return `https://liveeu-gcp.alkassdigital.net/alkass${num}-p/mux_video_720p_ts/index-1.m3u8`;
-}
+// تحميل القنوات من JSON
+fetch("https://a7md08.github.io/live/alkass-sports/alkass.json", { cache: "no-store" })
+  .then(r => r.json())
+  .then(data => {
+    streams = data.streams;
 
-function playChannel(num){
-  btns.forEach(b=>b.classList.remove('active'));
+    // إنشاء الأزرار تلقائياً
+    streams.forEach((s, i) => {
+      let num = i + 1;
+      const btn = document.createElement("div");
+      btn.className = "channel-btn";
+      btn.dataset.num = num;
+      btn.textContent = `Channel ${num}`;
+      btn.onclick = () => playChannel(num);
+      channelsBox.appendChild(btn);
+    });
+
+    // تفعيل أول قناة
+    playChannel(1);
+  });
+
+// تشغيل القناة
+function playChannel(num) {
+  document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.channel-btn[data-num="${num}"]`).classList.add('active');
-  document.title=`Ahmad Algwary | Live Channel ${num}`;
 
-  const src=buildUrl(num);
-  if(hls){hls.destroy();hls=null;}
+  const stream = streams[num - 1];
+  if (!stream) return;
 
-  if(video.canPlayType('application/vnd.apple.mpegurl')){
-    video.src=src;
+  document.title = "Ahmad Algwary | " + stream.name;
+
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+
+  if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = stream.url;
     video.play().catch(()=>{});
-  }else if(Hls.isSupported()){
-    hls=new Hls();
+  } else if (Hls.isSupported()) {
+    hls = new Hls();
     hls.attachMedia(video);
-    hls.loadSource(src);
-    hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
+    hls.loadSource(stream.url);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
   }
 }
 
-btns.forEach(btn=>btn.addEventListener('click',()=>playChannel(btn.dataset.num)));
-playChannel(1);
-
-// ===== فحص JSON كل 10 ثواني =====
+// فحص حالة الموقع
 function checkSiteStatus() {
   fetch('https://a7md08.github.io/Files/Web/Site%20status.json', {cache: "no-store"})
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === "off") {
-        window.location.href = "https://a7md08.github.io/live/Checking-status/";
-      }
-    })
-    .catch(err => console.error('Error checking site status:', err));
+    .then(r => r.json())
+    .then(d => { if (d.status === "off") location.href = "https://a7md08.github.io/live/Checking-status/"; });
 }
 
 checkSiteStatus();
