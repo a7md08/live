@@ -175,6 +175,14 @@ const channelsBox = document.getElementById('channels');
 let hls = null;
 let streams = [];
 
+// استخراج رقم القناة من الرابط
+function getChannelFromURL() {
+  const path = window.location.pathname.split('/');
+  const last = path[path.length - 1];
+  const num = parseInt(last);
+  return isNaN(num) ? 1 : num; // القناة الافتراضية الأولى
+}
+
 // تحميل القنوات من JSON
 fetch("https://a7md08.github.io/live/alkass-sports/alkass.json", { cache: "no-store" })
   .then(r => r.json())
@@ -188,28 +196,30 @@ fetch("https://a7md08.github.io/live/alkass-sports/alkass.json", { cache: "no-st
       btn.className = "channel-btn";
       btn.dataset.num = num;
       btn.textContent = `Channel ${num}`;
-      btn.onclick = () => playChannel(num);
+      btn.onclick = () => {
+        history.replaceState(null, "", `/live/alkass-sports/${num}`); // تحديث الرابط
+        playChannel(num);
+      };
       channelsBox.appendChild(btn);
     });
 
-    // تفعيل أول قناة
-    playChannel(1);
+    // شغل القناة حسب الرابط
+    const channelNum = getChannelFromURL();
+    playChannel(channelNum);
   });
 
 // تشغيل القناة
 function playChannel(num) {
   document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.channel-btn[data-num="${num}"]`).classList.add('active');
+  const btn = document.querySelector(`.channel-btn[data-num="${num}"]`);
+  if(btn) btn.classList.add('active');
 
   const stream = streams[num - 1];
   if (!stream) return;
 
   document.title = "Ahmad Algwary | " + stream.name;
 
-  if (hls) {
-    hls.destroy();
-    hls = null;
-  }
+  if (hls) { hls.destroy(); hls = null; }
 
   if (video.canPlayType("application/vnd.apple.mpegurl")) {
     video.src = stream.url;
