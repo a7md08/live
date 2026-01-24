@@ -2,73 +2,61 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>مشغل البث المباشر</title>
+  <title>VLC Web Player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
+
   <style>
     body {
-      background: #0f172a;
-      color: #e5e7eb;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: black;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
     }
-    .player-box {
-      width: 90%;
-      max-width: 900px;
-      background: #020617;
-      padding: 16px;
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0,0,0,.5);
-    }
-    h1 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    video {
+    .video-js {
       width: 100%;
-      border-radius: 12px;
-      background: black;
-    }
-    .note {
-      margin-top: 10px;
-      font-size: 0.85rem;
-      opacity: 0.7;
-      text-align: center;
+      height: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="player-box">
-    <h1>مشغل البث المباشر (M3U8)</h1>
-    <video id="video" controls autoplay></video>
-    <div class="note">إذا لم يعمل البث على المتصفح، جرّب متصفح Chrome أو Edge</div>
-  </div>
 
-  <!-- HLS.js -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <video
+    id="vlcPlayer"
+    class="video-js vjs-big-play-centered"
+    controls
+    preload="auto"
+    autoplay
+    data-setup='{}'>
+  </video>
+
+  <!-- Video.js -->
+  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+  <!-- HLS support -->
+  <script src="https://cdn.jsdelivr.net/npm/videojs-http-streaming@3.10.0/dist/videojs-http-streaming.min.js"></script>
+
   <script>
-    const video = document.getElementById('video');
-    const videoSrc = 'http://maveniptv.net:80/live/ahmedELmetwally85/ah8759946/78395.m3u8';
+    const player = videojs('vlcPlayer', {
+      liveui: true,
+      fluid: true,
+      controls: true,
+      autoplay: true,
+      preload: 'auto'
+    });
 
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-      video.addEventListener('loadedmetadata', function () {
-        video.play();
-      });
-    } else {
-      alert('المتصفح لا يدعم تشغيل هذا النوع من البث');
-    }
+    player.src({
+      src: 'http://maveniptv.net:80/live/ahmedELmetwally85/ah8759946/78395.m3u8',
+      type: 'application/x-mpegURL'
+    });
+
+    player.ready(() => {
+      player.play();
+    });
   </script>
+
 </body>
 </html>
