@@ -2,22 +2,26 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>VLC Web Player</title>
+  <title>Plyr IPTV Player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
   <style>
     body {
       margin: 0;
-      background: black;
+      background: #000;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
     }
-    .video-js {
+    .player-wrapper {
+      width: 100%;
+      height: 100%;
+    }
+    video {
       width: 100%;
       height: 100%;
     }
@@ -25,37 +29,40 @@
 </head>
 <body>
 
-  <video
-    id="vlcPlayer"
-    class="video-js vjs-big-play-centered"
-    controls
-    preload="auto"
-    autoplay
-    data-setup='{}'>
-  </video>
+  <div class="player-wrapper">
+    <video id="player" playsinline controls></video>
+  </div>
 
-  <!-- Video.js -->
-  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-  <!-- HLS support -->
-  <script src="https://cdn.jsdelivr.net/npm/videojs-http-streaming@3.10.0/dist/videojs-http-streaming.min.js"></script>
+  <!-- HLS.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Plyr JS -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
   <script>
-    const player = videojs('vlcPlayer', {
-      liveui: true,
-      fluid: true,
-      controls: true,
+    const source = 'http://maveniptv.net:80/live/ahmedELmetwally85/ah8759946/78395.m3u8';
+    const video = document.getElementById('player');
+
+    const player = new Plyr(video, {
       autoplay: true,
-      preload: 'auto'
+      controls: [
+        'play-large', 'play', 'progress', 'current-time', 'mute',
+        'volume', 'settings', 'fullscreen'
+      ],
+      settings: ['quality', 'speed']
     });
 
-    player.src({
-      src: 'http://maveniptv.net:80/live/ahmedELmetwally85/ah8759946/78395.m3u8',
-      type: 'application/x-mpegURL'
-    });
-
-    player.ready(() => {
-      player.play();
-    });
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true
+      });
+      hls.loadSource(source);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = source;
+    } else {
+      alert('المتصفح لا يدعم هذا البث');
+    }
   </script>
 
 </body>
